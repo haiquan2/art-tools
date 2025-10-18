@@ -214,10 +214,14 @@ export default function HomeScreen({ navigation }) {
         ) : (
           <View style={styles.grid}>
             <View style={styles.column}>
-              {filteredTools.filter((_, index) => index % 2 === 0).map((item) => renderItem({ item }))}
+              {filteredTools.filter((_, index) => index % 2 === 0).map((item) => (
+                <View key={item.id}>{renderItem({ item })}</View>
+              ))}
             </View>
             <View style={styles.column}>
-              {filteredTools.filter((_, index) => index % 2 === 1).map((item) => renderItem({ item }))}
+              {filteredTools.filter((_, index) => index % 2 === 1).map((item) => (
+                <View key={item.id}>{renderItem({ item })}</View>
+              ))}
             </View>
           </View>
         )}

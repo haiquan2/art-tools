@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -9,21 +9,24 @@ import {
   ActivityIndicator,
   ScrollView,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import { fetchArtTools } from '../services/api';
 import { COLORS } from '../constants/colors';
+import { useScrollToTop } from '@react-navigation/native';
 
 const BRAND_IMAGES = {
-  'Arteza': require('../../assets/brand.png'),
-  'Color Splash': require('../../assets/brand.png'),
-  'Edding': require('../../assets/brand.png'),
-  'KingArt': require('../../assets/brand.png'),
+  'Arteza': require('../../assets/logo.png'),
+  'Color Splash': require('../../assets/logo.png'),
+  'Edding': require('../../assets/logo.png'),
+  'KingArt': require('../../assets/logo.png'),
 };
 
 export default function ShopScreen({ navigation }) {
   const [artTools, setArtTools] = useState([]);
   const [loading, setLoading] = useState(true);
   const [brands, setBrands] = useState([]);
+
+  const scrollRef = useRef();
+  useScrollToTop(scrollRef);
 
   useEffect(() => {
     loadArtTools();
@@ -35,7 +38,6 @@ export default function ShopScreen({ navigation }) {
       const data = await fetchArtTools();
       setArtTools(data);
       
-      // Get unique brands
       const uniqueBrands = [...new Set(data.map(item => item.brand).filter(Boolean))];
       setBrands(uniqueBrands);
     } catch (error) {
@@ -55,7 +57,7 @@ export default function ShopScreen({ navigation }) {
       onPress={() => navigation.navigate('SearchResult', { brand })}
     >
       <Image
-        source={BRAND_IMAGES[brand] || require('../../assets/brand.png')}
+        source={BRAND_IMAGES[brand] || require('../../assets/logo.png')}
         style={styles.brandImage}
         resizeMode="contain"
       />
@@ -120,7 +122,11 @@ export default function ShopScreen({ navigation }) {
   }
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      ref={scrollRef}
+      style={styles.container} 
+      showsVerticalScrollIndicator={false}
+    >
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Shop by Brand</Text>

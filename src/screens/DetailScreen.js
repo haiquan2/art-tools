@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { fetchArtToolById } from '../services/api';
+import { fetchArtToolById, countFeedbacks, averageRating } from '../services/api';
 import { addToFavorites, removeFromFavorites, isFavorite } from '../utils/storage';
 import { COLORS } from '../constants/colors';
 
@@ -18,10 +18,44 @@ export default function DetailScreen({ route, navigation }) {
   const [item, setItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isFav, setIsFav] = useState(false);
+  const [feedbackCount, setFeedbackCount] = useState(0);
+  const [avgRating, setAvgRating] = useState(0);
+  const [sameBrandItems, setSameBrandItems] = useState([]);
 
   useEffect(() => {
     loadItemDetail();
   }, [itemId]);
+
+  useEffect(() => {
+    if (item) {
+      loadRatingInfo();
+      loadSameBrandItems();
+    }
+  }, [item]);
+
+  const loadRatingInfo = async () => {
+    try {
+      const count = await countFeedbacks(itemId);
+      const rating = await averageRating(itemId);
+      setFeedbackCount(count);
+      setAvgRating(rating);
+    } catch (error) {
+      // console.error('Error loading rating info:', error);
+    }
+  };
+
+  const loadSameBrandItems = async () => {
+    try {
+      const { fetchArtTools } = require('../services/api');
+      const allTools = await fetchArtTools();
+      const brandItems = allTools
+        .filter(tool => tool.brand === item.brand && tool.id !== item.id)
+        .slice(0, 4);
+      setSameBrandItems(brandItems);
+    } catch (error) {
+      console.error('Error loading same brand items:', error);
+    }
+  };
 
   const loadItemDetail = async () => {
     try {
@@ -66,7 +100,6 @@ export default function DetailScreen({ route, navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      {/* Product Image */}
       <Image
         source={{ uri: item.image || 'https://via.placeholder.com/400' }}
         style={styles.image}
@@ -87,69 +120,48 @@ export default function DetailScreen({ route, navigation }) {
         <View style={styles.header}>
           <View style={styles.headerLeft}>
             <Text style={styles.title}>{item.artName}</Text>
-            <Text style={styles.brand}>{item.brand}</Text>
-          </View>
-          <View style={styles.priceContainer}>
-            <Text style={styles.price}>${item.price}</Text>
-            {item.limitedTimeDeal > 0 && (
-              <View style={styles.dealBadge}>
-                <Text style={styles.dealText}>{Math.round(item.limitedTimeDeal * 100)}% OFF</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              <Text style={styles.price}>${Math.round(item.price * (1 - item.limitedTimeDeal))}</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'flex-start' }}>
+                <Text style={styles.originalPrice}>${item.price} </Text>
+                <Text style={styles.dealPrice}>({Math.round(item.limitedTimeDeal * 100)}% off)</Text>
               </View>
-            )}
+            </View>
+            <Text style={styles.brand}>
+              From{' '}
+              <Text
+                style={{ textDecorationLine: 'underline', color: COLORS.primary }}
+                onPress={() => navigation.navigate('SearchResult', { brand: item.brand })}
+              >
+                {item.brand}
+              </Text>
+            </Text>
           </View>
         </View>
 
-        {/* Glass Surface Badge */}
-        {item.glassSurface && (
-          <View style={styles.featureBadge}>
-            <Ionicons name="shield-checkmark" size={18} color={COLORS.primary} />
-            <Text style={styles.featureBadgeText}>Compatible with Glass Surfaces</Text>
-          </View>
-        )}
-
-        {/* Rating */}
-        {item.rating && (
-          <View style={styles.ratingContainer}>
-            <View style={styles.ratingStars}>
-              {[...Array(5)].map((_, index) => (
-                <Ionicons
-                  key={index}
-                  name={index < Math.floor(item.rating) ? 'star' : 'star-outline'}
-                  size={20}
-                  color="#FFD700"
-                />
-              ))}
-            </View>
-            <Text style={styles.ratingText}>{item.rating} / 5.0</Text>
-          </View>
-        )}
-
-        {/* Category */}
-        {item.category && (
-          <View style={styles.categoryContainer}>
-            <Text style={styles.categoryLabel}>Category:</Text>
-            <Text style={styles.categoryValue}>{item.category}</Text>
-          </View>
-        )}
-
         {/* Description */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Description</Text>
           <Text style={styles.description}>
             {item.description || 'No description available for this product.'}
           </Text>
         </View>
 
-        {/* Features */}
-        {item.features && Array.isArray(item.features) && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Features</Text>
-            {item.features.map((feature, index) => (
-              <View key={index} style={styles.featureItem}>
-                <Ionicons name="checkmark-circle" size={20} color="#4CAF50" />
-                <Text style={styles.featureText}>{feature}</Text>
-              </View>
-            ))}
+        {/* Glass Surface Badge */}
+        {item.glassSurface && (
+          <View style={styles.featureBadge}>
+            <Ionicons name="shield-checkmark" size={18} color={COLORS.textLight} />
+            <Text style={styles.featureBadgeText}>Compatible with Glass Surfaces</Text>
+          </View>
+        )}
+
+        {/* Rating Section */}
+        {feedbackCount >= 0 && (
+          <View style={styles.ratingSection}>
+            <Text style={styles.ratingsTitle}>Ratings ({feedbackCount})</Text>
+            <View style={styles.ratingRow}>
+              <Ionicons name="star" size={20} color="#FFD700" />
+              <Text style={styles.avgRatingText}>{avgRating.toFixed(1)} average stars</Text>
+            </View>
           </View>
         )}
 
@@ -191,6 +203,49 @@ export default function DetailScreen({ route, navigation }) {
           </View>
         )}
 
+        {/* Same Brand Items */}
+        {sameBrandItems.length > 0 && (
+          <View style={styles.section}>
+            <View style={styles.sameBrandHeader}>
+              <Text style={styles.sectionTitle}>More from {item?.brand}</Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('SearchResult', { brand: item?.brand })}
+              >
+                <Text style={styles.seeMoreText}>See More →</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.sameBrandGrid}>
+              {sameBrandItems.map((product) => (
+                <TouchableOpacity
+                  key={product.id}
+                  style={styles.sameBrandCard}
+                  onPress={() => navigation.push('DetailScreen', { itemId: product.id })}
+                >
+                  <Image source={{ uri: product.image }} style={styles.sameBrandImage} />
+                  {product.limitedTimeDeal > 0 && (
+                    <View style={styles.sameBrandBadge}>
+                      <Text style={styles.sameBrandBadgeText}>-{product.limitedTimeDeal}%</Text>
+                    </View>
+                  )}
+                  <Text style={styles.sameBrandName} numberOfLines={2}>{product.artName}</Text>
+                  <View style={styles.sameBrandPriceRow}>
+                    {product.limitedTimeDeal > 0 ? (
+                      <>
+                        <Text style={styles.sameBrandPrice}>
+                          ${(product.price * (1 - product.limitedTimeDeal / 100)).toFixed(2)}
+                        </Text>
+                        <Text style={styles.sameBrandOriginalPrice}>${product.price}</Text>
+                      </>
+                    ) : (
+                      <Text style={styles.sameBrandPrice}>${product.price}</Text>
+                    )}
+                  </View>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+        )}
+
         {/* Action Button */}
         <TouchableOpacity
           style={[styles.actionButton, isFav && styles.actionButtonActive]}
@@ -222,7 +277,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 400,
+    height: 320,
     backgroundColor: '#f0f0f0',
   },
   favoriteButton: {
@@ -250,9 +305,9 @@ const styles = StyleSheet.create({
     marginRight: 15,
   },
   title: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: COLORS.primary,
     marginBottom: 5,
   },
   brand: {
@@ -263,16 +318,20 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   price: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold',
     color: COLORS.primary,
+    marginRight: 10,
   },
-  dealBadge: {
-    backgroundColor: '#FF6B6B',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
-    marginTop: 5,
+  originalPrice: {
+    fontSize: 16,
+    color: '#999',
+    textDecorationLine: 'line-through',
+    marginTop: 0,
+  },
+  dealPrice: {
+    fontSize: 16,
+    color: '#999',
   },
   dealText: {
     color: '#fff',
@@ -290,48 +349,38 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   featureBadgeText: {
-    color: COLORS.primary,
+    color: COLORS.textLight,
     fontSize: 14,
     fontWeight: '600',
     marginLeft: 6,
   },
-  ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  ratingStars: {
-    flexDirection: 'row',
-    marginRight: 10,
-  },
-  ratingText: {
-    fontSize: 16,
-    color: '#666',
-  },
-  categoryContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  ratingSection: {
     marginBottom: 20,
+    paddingVertical: 15,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#eee',
   },
-  categoryLabel: {
-    fontSize: 14,
-    color: '#999',
-    marginRight: 8,
-  },
-  categoryValue: {
-    fontSize: 14,
+  ratingsTitle: {
+    fontSize: 16,
     fontWeight: '600',
     color: '#333',
-    backgroundColor: '#f0f0f0',
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    borderRadius: 12,
+    marginBottom: 8,
+  },
+  ratingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  avgRatingText: {
+    fontSize: 16,
+    color: '#666',
+    marginLeft: 8,
   },
   section: {
     marginBottom: 25,
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 10,
@@ -340,17 +389,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     color: '#666',
-  },
-  featureItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  featureText: {
-    fontSize: 16,
-    color: '#666',
-    marginLeft: 10,
-    flex: 1,
   },
   feedbackContainer: {
     backgroundColor: '#f9f9f9',
@@ -409,5 +447,74 @@ const styles = StyleSheet.create({
   errorText: {
     fontSize: 16,
     color: '#999',
+  },
+  sameBrandHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 15,
+  },
+  seeMoreText: {
+    fontSize: 14,
+    color: COLORS.primary,
+    fontWeight: '600',
+  },
+  sameBrandGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  sameBrandCard: {
+    width: '48%',
+    marginBottom: 15,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+  },
+  sameBrandImage: {
+    width: '100%',
+    height: 120,
+    backgroundColor: '#f0f0f0',
+  },
+  sameBrandBadge: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    backgroundColor: '#ff4444',
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 5,
+  },
+  sameBrandBadgeText: {
+    color: '#fff',
+    fontSize: 11,
+    fontWeight: 'bold',
+  },
+  sameBrandName: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#333',
+    padding: 10,
+    paddingBottom: 5,
+    minHeight: 42,
+  },
+  sameBrandPriceRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+    gap: 6,
+  },
+  sameBrandPrice: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: COLORS.primary,
+  },
+  sameBrandOriginalPrice: {
+    fontSize: 13,
+    color: '#999',
+    textDecorationLine: 'line-through',
   },
 });

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   ActivityIndicator,
   Image,
   Modal,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { fetchArtTools } from '../services/api';
@@ -146,84 +147,89 @@ export default function SearchResultScreen({ route, navigation }) {
       onRequestClose={() => setShowFilterModal(false)}
     >
       <View style={styles.modalOverlay}>
-        <View style={styles.modalContent}>
-          <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>Filters</Text>
-            <TouchableOpacity onPress={() => setShowFilterModal(false)}>
-              <Ionicons name="close" size={24} color="#333" />
-            </TouchableOpacity>
-          </View>
-
-          {/* Brand Filter */}
-          <Text style={styles.filterLabel}>Brand</Text>
-          <View style={styles.brandFilters}>
-            {getBrands().map(brand => (
-              <TouchableOpacity
-                key={brand}
-                style={[
-                  styles.brandFilterChip,
-                  selectedBrand === brand && styles.brandFilterChipActive
-                ]}
-                onPress={() => setSelectedBrand(brand)}
-              >
-                <Text
-                  style={[
-                    styles.brandFilterText,
-                    selectedBrand === brand && styles.brandFilterTextActive
-                  ]}
-                >
-                  {brand}
-                </Text>
+        <KeyboardAvoidingView
+          behavior='padding'
+          style={{ flex: 1, justifyContent: 'flex-end' }}
+        >
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Filters</Text>
+              <TouchableOpacity onPress={() => setShowFilterModal(false)}>
+                <Ionicons name="close" size={24} color="#333" />
               </TouchableOpacity>
-            ))}
-          </View>
+            </View>
 
-          {/* Price Range */}
-          <Text style={styles.filterLabel}>Price Range: ${priceRange.min} - ${priceRange.max}</Text>
-          <View style={styles.priceInputs}>
-            <TextInput
-              style={styles.priceInput}
-              placeholder="Min"
-              keyboardType="numeric"
-              value={priceRange.min.toString()}
-              onChangeText={(text) => setPriceRange({...priceRange, min: parseInt(text) || 0})}
-            />
-            <Text style={styles.priceSeparator}>-</Text>
-            <TextInput
-              style={styles.priceInput}
-              placeholder="Max"
-              keyboardType="numeric"
-              value={priceRange.max.toString()}
-              onChangeText={(text) => setPriceRange({...priceRange, max: parseInt(text) || 1000})}
-            />
-          </View>
+            {/* Brand Filter */}
+            <Text style={styles.filterLabel}>Brand</Text>
+            <View style={styles.brandFilters}>
+              {getBrands().map(brand => (
+                <TouchableOpacity
+                  key={brand}
+                  style={[
+                    styles.brandFilterChip,
+                    selectedBrand === brand && styles.brandFilterChipActive
+                  ]}
+                  onPress={() => setSelectedBrand(brand)}
+                >
+                  <Text
+                    style={[
+                      styles.brandFilterText,
+                      selectedBrand === brand && styles.brandFilterTextActive
+                    ]}
+                  >
+                    {brand}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
 
-          {/* On Sale Toggle */}
-          <TouchableOpacity
-            style={styles.toggleRow}
-            onPress={() => setShowOnSaleOnly(!showOnSaleOnly)}
-          >
-            <Text style={styles.toggleText}>Show On Sale Items Only</Text>
-            <Ionicons
-              name={showOnSaleOnly ? 'checkbox' : 'square-outline'}
-              size={24}
-              color={showOnSaleOnly ? COLORS.primary : '#999'}
-            />
-          </TouchableOpacity>
+            {/* Price Range */}
+            <Text style={styles.filterLabel}>Price Range: ${priceRange.min} - ${priceRange.max}</Text>
+            <View style={styles.priceInputs}>
+              <TextInput
+                style={styles.priceInput}
+                placeholder="Min"
+                keyboardType="numeric"
+                value={priceRange.min.toString()}
+                onChangeText={(text) => setPriceRange({...priceRange, min: parseInt(text) || 0})}
+              />
+              <Text style={styles.priceSeparator}>-</Text>
+              <TextInput
+                style={styles.priceInput}
+                placeholder="Max"
+                keyboardType="numeric"
+                value={priceRange.max.toString()}
+                onChangeText={(text) => setPriceRange({...priceRange, max: parseInt(text) || 1000})}
+              />
+            </View>
 
-          {/* Action Buttons */}
-          <View style={styles.modalActions}>
-            <TouchableOpacity style={styles.resetButton} onPress={resetFilters}>
-              <Text style={styles.resetButtonText}>Reset</Text>
-            </TouchableOpacity>
+            {/* On Sale Toggle */}
             <TouchableOpacity
-              style={styles.applyButton}
-              onPress={() => setShowFilterModal(false)}
+              style={styles.toggleRow}
+              onPress={() => setShowOnSaleOnly(!showOnSaleOnly)}
             >
-              <Text style={styles.applyButtonText}>Apply Filters</Text>
+              <Text style={styles.toggleText}>Show On Sale Items Only</Text>
+              <Ionicons
+                name={showOnSaleOnly ? 'checkbox' : 'square-outline'}
+                size={24}
+                color={showOnSaleOnly ? COLORS.primary : '#999'}
+              />
             </TouchableOpacity>
+
+            {/* Action Buttons */}
+            <View style={styles.modalActions}>
+              <TouchableOpacity style={styles.resetButton} onPress={resetFilters}>
+                <Text style={styles.resetButtonText}>Reset</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.applyButton}
+                onPress={() => setShowFilterModal(false)}
+              >
+                <Text style={styles.applyButtonText}>Apply Filters</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </View>
     </Modal>
   );

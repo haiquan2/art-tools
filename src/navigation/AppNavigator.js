@@ -18,7 +18,7 @@ const Stack = createStackNavigator();
 // Home Stack Navigator
 function HomeStack() {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }} edges={['top']}>
       <Stack.Navigator>
         <Stack.Screen 
           name="HomeList" 
@@ -38,7 +38,7 @@ function HomeStack() {
 // Shop Stack Navigator
 function ShopStack() {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 } } edges={['top']}>
       <Stack.Navigator>
         <Stack.Screen 
           name="ShopList" 

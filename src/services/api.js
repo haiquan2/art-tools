@@ -6,7 +6,6 @@ const api = axios.create({
   timeout: 10000,
 });
 
-// Fetch all art tools
 export const fetchArtTools = async () => {
   try {
     const response = await api.get('/art-tools');
@@ -17,7 +16,6 @@ export const fetchArtTools = async () => {
   }
 };
 
-// Fetch art tool by ID
 export const fetchArtToolById = async (id) => {
   try {
     const response = await api.get(`/art-tools/${id}`);
@@ -27,5 +25,29 @@ export const fetchArtToolById = async (id) => {
     throw error;
   }
 };
+
+export const countFeedbacks = async (id) => {
+  try {
+    const response = await api.get(`/art-tools/${id}`);
+    return response.data.feedbacks.length;
+  } catch (error) {
+    console.error('Error counting feedbacks:', error);
+    throw error;
+  }
+};
+
+// average rating for an art tool
+export const averageRating = async (id) => {
+  try {
+    const response = await api.get(`/art-tools/${id}`);
+    const feedbacks = response.data.feedbacks;
+    if (feedbacks.length === 0) return 0;
+    const total = feedbacks.reduce((sum, feedback) => sum + feedback.rating, 0);
+    return total / feedbacks.length;
+  } catch (error) {
+    console.error('Error calculating average rating:', error);
+    throw error;
+  }
+}
 
 export default api;

@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
+import Markdown from 'react-native-markdown-display';
 import { getFavorites, removeFromFavorites, clearAllFavorites } from '../utils/storage';
 import { getDetailedAISuggestions } from '../services/geminiAI';
 import { COLORS } from '../constants/colors';
@@ -167,7 +168,7 @@ export default function FavoritesScreen({ navigation }) {
           </View>
         ) : (
           <View style={styles.aiContentContainer}>
-            <Text style={styles.aiContent}>{aiSuggestions}</Text>
+            <Markdown style={markdownStyles}>{aiSuggestions}</Markdown>
           </View>
         )}
       </View>
@@ -429,3 +430,103 @@ const styles = StyleSheet.create({
     color: '#333',
   },
 });
+
+const markdownStyles = {
+  body: {
+    fontSize: 15,
+    lineHeight: 24,
+    color: '#333',
+  },
+  heading1: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#333',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  heading2: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
+    marginTop: 8,
+    marginBottom: 8,
+  },
+  heading3: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    marginTop: 6,
+    marginBottom: 6,
+  },
+  bullet_list: {
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  ordered_list: {
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  list_item: {
+    marginBottom: 5,
+    flexDirection: 'row',
+  },
+  bullet_list_icon: {
+    color: COLORS.primary,
+    fontSize: 16,
+    marginRight: 10,
+    marginLeft: 10,
+  },
+  ordered_list_icon: {
+    color: COLORS.primary,
+    fontSize: 14,
+    marginRight: 10,
+    marginLeft: 10,
+  },
+  paragraph: {
+    marginTop: 5,
+    marginBottom: 5,
+    fontSize: 15,
+    lineHeight: 24,
+    color: '#333',
+  },
+  strong: {
+    fontWeight: 'bold',
+    color: COLORS.primary,
+  },
+  em: {
+    fontStyle: 'italic',
+  },
+  code_inline: {
+    backgroundColor: '#f0f0f0',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+    fontFamily: 'monospace',
+    fontSize: 14,
+  },
+  code_block: {
+    backgroundColor: '#f0f0f0',
+    padding: 10,
+    borderRadius: 6,
+    fontFamily: 'monospace',
+    fontSize: 14,
+    marginVertical: 10,
+  },
+  link: {
+    color: COLORS.primary,
+    textDecorationLine: 'underline',
+  },
+  blockquote: {
+    backgroundColor: '#f9f9f9',
+    borderLeftWidth: 4,
+    borderLeftColor: COLORS.primary,
+    paddingLeft: 15,
+    paddingVertical: 10,
+    marginVertical: 10,
+  },
+  hr: {
+    backgroundColor: '#e0e0e0',
+    height: 1,
+    marginVertical: 15,
+  },
+};

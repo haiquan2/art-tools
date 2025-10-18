@@ -135,6 +135,7 @@ The AI analyzes:
 - Brands
 - Categories
 - Price ranges
+- Find similary product by image
 
 And suggests 3 similar products the user might like.
 
