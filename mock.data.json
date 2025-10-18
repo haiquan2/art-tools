@@ -1,0 +1,222 @@
+[
+  {
+    "id": "1",
+    "artName": "3D Fabric Paint, Glow in the Dark A402",
+    "price": 5,
+    "description": "Puffy Paint for Fabric - Create eyecatching, 3D designs with this bright and vibrant color.",
+    "glassSurface": true,
+    "image": "https://m.media-amazon.com/images/I/61I8rKtZE0L._AC_SX679_.jpg",
+    "brand": "Arteza",
+    "limitedTimeDeal": 0.27,
+    "feedbacks": [
+      {
+        "rating": 5,
+        "comment": "Imagine all the watches, living in conFusion!",
+        "author": "John Lemon",
+        "date": "2023-10-16T17:57:28.556094Z"
+      },
+      {
+        "rating": 4,
+        "comment": "Sends anyone to heaven, I wish I could get my mother-in-law to use it!",
+        "author": "Paul McVites",
+        "date": "2023-09-05T17:57:28.556094Z"
+      }
+    ]
+  },
+  {
+    "id": "2",
+    "artName": "Worldwide Neon Dimensional Fabric Paint Assortment",
+    "price": 13,
+    "description": "Brilliant colors, smart prices! Top-quality fabric paint at a budget price.",
+    "glassSurface": false,
+    "image": "https://m.media-amazon.com/images/I/71yL1rYRRGL._SX522_.jpg",
+    "brand": "Color Splash",
+    "limitedTimeDeal": 0.18
+  },
+  {
+    "id": "3",
+    "artName": "Edding 4500 textile marker - set of 10 colors (basic)",
+    "price": 29,
+    "description": "De edding textielstiften en pennen zijn verkrijgbaar in 20 levendige kleuren; voor het tekenen van precieze lijnen, bekijk de edding 4600 textielstift.",
+    "glassSurface": false,
+    "image": "https://m.media-amazon.com/images/I/71iNvJ0u+7L._AC_SX679_.jpg",
+    "brand": "Edding",
+    "limitedTimeDeal": 0
+  },
+  {
+    "id": "4",
+    "artName": "Real Brush Pens, Set of 12, Bright Tones",
+    "price": 12,
+    "description": "Self-Moistening and Self-Cleaning Flexible Nylon Bristles: You don’t have to moisten or clean the bristles of our markers for artists after blending with other colors.",
+    "glassSurface": true,
+    "image": "https://m.media-amazon.com/images/I/71N3nrPHk5L._AC_SX679_.jpg",
+    "brand": "Arteza",
+    "limitedTimeDeal": 0.16
+  },
+  {
+    "id": "5",
+    "artName": "Watercolor Pencils, 72 Colored Drawing Pencils for Artists",
+    "price": 40,
+    "description": "Add Depth to Your Art with These Watercolor Pencils: With a dab of a wet brush, these watercolor pencils for artists allow you to blend, layer, and create unique effects that lend drama to artworks.",
+    "glassSurface": false,
+    "image": "https://m.media-amazon.com/images/I/81k7uavjV1L._AC_SX466_.jpg",
+    "brand": "Arteza",
+    "limitedTimeDeal": 0
+  },
+  {
+    "id": "6",
+    "artName": "edding, textile pen 4600, round tip, 1 mm, red",
+    "price": 2,
+    "description": "Max. allowed washing temperature of the paint application: 60 °C.",
+    "glassSurface": true,
+    "image": "https://m.media-amazon.com/images/I/41apzbsl-LL._AC_SX679_.jpg",
+    "brand": "Edding",
+    "limitedTimeDeal": 0
+  },
+  {
+    "id": "7",
+    "artName": "Watercolor Brush Markers, 36 Piece, Multicolor, 410-36",
+    "price": 45,
+    "description": "HAVE FUN: Pinpoint precision control, so you can create washes, gradients, shading effects, and much more. Blend colors together to create variants of your own from light pastels to bold shades. Create with no worry or mess. Hassle-free free with no bleeding or smearing.",
+    "glassSurface": true,
+    "image": "https://m.media-amazon.com/images/I/71anzdYEPpL._AC_SX679_.jpg",
+    "brand": "KingArt",
+    "limitedTimeDeal": 0.3
+  },
+  {
+    "id": "8",
+    "artName": "Dual Tip Brush Pen Art Markers with Fineliner, Unqiue Colors, Set of 36",
+    "price": 16,
+    "description": "Ideal For Fine Art, Brush Lettering, Faux Calligraphy, Illustrations, Water Color Illustrations, Journaling And More!",
+    "glassSurface": false,
+    "image": "https://m.media-amazon.com/images/I/71B-XIopy0L._AC_SX679_.jpg",
+    "brand": "KingArt",
+    "limitedTimeDeal": 0.42
+  },
+  {
+    "id": "9",
+    "artName": "8-oz. Color Splash! Washable Glitter Paint Assortment (Pack of 8)",
+    "price": 35,
+    "description": "Brilliant colors, smart prices! Top-quality non-toxic washable glitter paint at a budget price.",
+    "glassSurface": false,
+    "image": "https://m.media-amazon.com/images/I/81xR31HH+ML._SX522_.jpg",
+    "brand": "Color Splash",
+    "limitedTimeDeal": 0
+  },
+  {
+    "id": "10",
+    "artName": "Acrylic Paint Set, 24 Vibrant Colors",
+    "price": 25,
+    "description": "High-quality acrylic paints for artists of all levels. Dries quickly to a permanent finish.",
+    "glassSurface": false,
+    "image": "https://m.media-amazon.com/images/I/71Q8Z0hbRbL._AC_SY300_SX300_QL70_FMwebp_.jpg",
+    "brand": "Arteza",
+    "limitedTimeDeal": 0.15,
+    "feedbacks": [
+      {
+        "rating": 5,
+        "comment": "These paints are fantastic! Great color payoff and easy to work with.",
+        "author": "ArtLover22",
+        "date": "2023-11-01T10:00:00Z"
+      }
+    ]
+  },
+  {
+    "id": "11",
+    "artName": "Fine Tip Permanent Markers, 12-Pack",
+    "price": 10,
+    "description": "Versatile permanent markers for drawing, labeling, and crafts. Quick-drying and fade-resistant.",
+    "glassSurface": true,
+    "image": "https://m.media-amazon.com/images/I/81WP3fjC+2L._AC_SX679_.jpg",
+    "brand": "Sharpie",
+    "limitedTimeDeal": 0.1,
+    "feedbacks": [
+      {
+        "rating": 4,
+        "comment": "Good markers, but some colors bled a little on certain surfaces.",
+        "author": "CrafterBee",
+        "date": "2023-10-28T14:30:00Z"
+      }
+    ]
+  },
+  {
+    "id": "12",
+    "artName": "Sketchbook Pro, A4 Hardcover",
+    "price": 18,
+    "description": "Premium sketchbook with acid-free paper, perfect for pencils, pens, and light washes.",
+    "glassSurface": false,
+    "image": "https://m.media-amazon.com/images/I/71iWvsPuqhL._AC_SY300_SX300_QL70_FMwebp_.jpg",
+    "brand": "Strathmore",
+    "limitedTimeDeal": 0
+  },
+  {
+    "id": "13",
+    "artName": "Oil Pastels, 50 Count Set",
+    "price": 22,
+    "description": "Richly pigmented oil pastels for smooth blending and vibrant artwork. Non-toxic.",
+    "glassSurface": false,
+    "image": "https://m.media-amazon.com/images/I/71EOZI7SjlL._AC_SX300_SY300_QL70_FMwebp_.jpg",
+    "brand": "Cray-Pas",
+    "limitedTimeDeal": 0.2
+  },
+  {
+    "id": "14",
+    "artName": "Clay Sculpting Tool Set, 11 Pieces",
+    "price": 15,
+    "description": "Essential tools for pottery, sculpting, and polymer clay. Durable and easy to clean.",
+    "glassSurface": false,
+    "image": "https://m.media-amazon.com/images/I/71h3UkUrWfL._AC_SX679_.jpg",
+    "brand": "Sculpt-It",
+    "limitedTimeDeal": 0.05
+  },
+  {
+    "id": "15",
+    "artName": "Gouache Paint Set, 18 Colors",
+    "price": 30,
+    "description": "Opaque watercolor paint with a matte finish. Ideal for illustration and design.",
+    "glassSurface": false,
+    "image": "https://m.media-amazon.com/images/I/81K1Eq6JmFL._AC_SX300_SY300_QL70_FMwebp_.jpg",
+    "brand": "Himi",
+    "limitedTimeDeal": 0
+  },
+  {
+    "id": "16",
+    "artName": "Calligraphy Pen Set, Beginner's Kit",
+    "price": 35,
+    "description": "Everything you need to start calligraphy, including pens, nibs, ink, and practice paper.",
+    "glassSurface": true,
+    "image": "https://m.media-amazon.com/images/I/615+lOp-CfL._AC_SY300_SX300_QL70_FMwebp_.jpg",
+    "brand": "Pilot",
+    "limitedTimeDeal": 0.12
+  },
+  {
+    "id": "17",
+    "artName": "Art Easel, Adjustable Wooden",
+    "price": 60,
+    "description": "Sturdy wooden easel, adjustable for various heights and canvas sizes. Folds for storage.",
+    "glassSurface": false,
+    "image": "https://m.media-amazon.com/images/I/71A9d-5-BkL._AC_SY300_SX300_QL70_FMwebp_.jpg",
+    "brand": "Mont Marte",
+    "limitedTimeDeal": 0
+  },
+  {
+    "id": "18",
+    "artName": "Glitter Glue Pens, 20 Assorted Colors",
+    "price": 14,
+    "description": "Add sparkle to your projects with these easy-to-use glitter glue pens. Non-toxic.",
+    "glassSurface": true,
+    "image": "https://m.media-amazon.com/images/I/51udXPmBTvL._SX342_SY445_QL70_FMwebp_.jpg",
+    "brand": "Color Splash",
+    "limitedTimeDeal": 0.08
+  },
+  {
+    "id": "19",
+    "artName": "Watercolor Paper Pad, 30 Sheets, Cold Press",
+    "price": 17,
+    "description": "High-quality cold press watercolor paper, ideal for all wet media. Heavyweight and durable.",
+    "glassSurface": false,
+    "image": "https://m.media-amazon.com/images/I/61FbmMPtNbL._AC_SY300_SX300_QL70_FMwebp_.jpg",
+    "brand": "Canson",
+    "limitedTimeDeal": 0
+  }
+]

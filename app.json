@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "ArtTool App",
+    "slug": "arttool-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/logo-app.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#6cf6d3"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/logo-app.png",
+        "backgroundColor": "#ffffff"
+      }
+    }
+  }
+}
