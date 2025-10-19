@@ -31,7 +31,8 @@
     "glassSurface": false,
     "image": "https://m.media-amazon.com/images/I/71yL1rYRRGL._SX522_.jpg",
     "brand": "Color Splash",
-    "limitedTimeDeal": 0.18
+    "limitedTimeDeal": 0.18,
+    "feedbacks": []
   },
   {
     "id": "3",
@@ -41,7 +42,8 @@
     "glassSurface": false,
     "image": "https://m.media-amazon.com/images/I/71iNvJ0u+7L._AC_SX679_.jpg",
     "brand": "Edding",
-    "limitedTimeDeal": 0
+    "limitedTimeDeal": 0,
+    "feedbacks": []
   },
   {
     "id": "4",
@@ -51,7 +53,8 @@
     "glassSurface": true,
     "image": "https://m.media-amazon.com/images/I/71N3nrPHk5L._AC_SX679_.jpg",
     "brand": "Arteza",
-    "limitedTimeDeal": 0.16
+    "limitedTimeDeal": 0.16,
+    "feedbacks": []
   },
   {
     "id": "5",
@@ -61,7 +64,8 @@
     "glassSurface": false,
     "image": "https://m.media-amazon.com/images/I/81k7uavjV1L._AC_SX466_.jpg",
     "brand": "Arteza",
-    "limitedTimeDeal": 0
+    "limitedTimeDeal": 0,
+    "feedbacks": []
   },
   {
     "id": "6",
@@ -71,7 +75,8 @@
     "glassSurface": true,
     "image": "https://m.media-amazon.com/images/I/41apzbsl-LL._AC_SX679_.jpg",
     "brand": "Edding",
-    "limitedTimeDeal": 0
+    "limitedTimeDeal": 0,
+    "feedbacks": []
   },
   {
     "id": "7",
@@ -81,7 +86,8 @@
     "glassSurface": true,
     "image": "https://m.media-amazon.com/images/I/71anzdYEPpL._AC_SX679_.jpg",
     "brand": "KingArt",
-    "limitedTimeDeal": 0.3
+    "limitedTimeDeal": 0.3,
+    "feedbacks": []
   },
   {
     "id": "8",
@@ -91,7 +97,8 @@
     "glassSurface": false,
     "image": "https://m.media-amazon.com/images/I/71B-XIopy0L._AC_SX679_.jpg",
     "brand": "KingArt",
-    "limitedTimeDeal": 0.42
+    "limitedTimeDeal": 0.42,
+    "feedbacks": []
   },
   {
     "id": "9",
@@ -101,7 +108,8 @@
     "glassSurface": false,
     "image": "https://m.media-amazon.com/images/I/81xR31HH+ML._SX522_.jpg",
     "brand": "Color Splash",
-    "limitedTimeDeal": 0
+    "limitedTimeDeal": 0,
+    "feedbacks": []
   },
   {
     "id": "10",
@@ -147,7 +155,8 @@
     "glassSurface": false,
     "image": "https://m.media-amazon.com/images/I/71iWvsPuqhL._AC_SY300_SX300_QL70_FMwebp_.jpg",
     "brand": "Strathmore",
-    "limitedTimeDeal": 0
+    "limitedTimeDeal": 0,
+    "feedbacks": []
   },
   {
     "id": "13",
@@ -157,7 +166,8 @@
     "glassSurface": false,
     "image": "https://m.media-amazon.com/images/I/71EOZI7SjlL._AC_SX300_SY300_QL70_FMwebp_.jpg",
     "brand": "Cray-Pas",
-    "limitedTimeDeal": 0.2
+    "limitedTimeDeal": 0.2,
+    "feedbacks": []
   },
   {
     "id": "14",
@@ -167,7 +177,8 @@
     "glassSurface": false,
     "image": "https://m.media-amazon.com/images/I/71h3UkUrWfL._AC_SX679_.jpg",
     "brand": "Sculpt-It",
-    "limitedTimeDeal": 0.05
+    "limitedTimeDeal": 0.05,
+    "feedbacks": []
   },
   {
     "id": "15",
@@ -177,7 +188,8 @@
     "glassSurface": false,
     "image": "https://m.media-amazon.com/images/I/81K1Eq6JmFL._AC_SX300_SY300_QL70_FMwebp_.jpg",
     "brand": "Himi",
-    "limitedTimeDeal": 0
+    "limitedTimeDeal": 0,
+    "feedbacks": []
   },
   {
     "id": "16",
@@ -187,7 +199,8 @@
     "glassSurface": true,
     "image": "https://m.media-amazon.com/images/I/615+lOp-CfL._AC_SY300_SX300_QL70_FMwebp_.jpg",
     "brand": "Pilot",
-    "limitedTimeDeal": 0.12
+    "limitedTimeDeal": 0.12,
+    "feedbacks": []
   },
   {
     "id": "17",
@@ -197,7 +210,8 @@
     "glassSurface": false,
     "image": "https://m.media-amazon.com/images/I/71A9d-5-BkL._AC_SY300_SX300_QL70_FMwebp_.jpg",
     "brand": "Mont Marte",
-    "limitedTimeDeal": 0
+    "limitedTimeDeal": 0,
+    "feedbacks": []
   },
   {
     "id": "18",
@@ -207,7 +221,8 @@
     "glassSurface": true,
     "image": "https://m.media-amazon.com/images/I/51udXPmBTvL._SX342_SY445_QL70_FMwebp_.jpg",
     "brand": "Color Splash",
-    "limitedTimeDeal": 0.08
+    "limitedTimeDeal": 0.08,
+    "feedbacks": []
   },
   {
     "id": "19",
@@ -217,6 +232,7 @@
     "glassSurface": false,
     "image": "https://m.media-amazon.com/images/I/61FbmMPtNbL._AC_SY300_SX300_QL70_FMwebp_.jpg",
     "brand": "Canson",
-    "limitedTimeDeal": 0
+    "limitedTimeDeal": 0,
+    "feedbacks": []
   }
 ]

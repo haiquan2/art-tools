@@ -9,8 +9,9 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { fetchArtToolById, countFeedbacks, averageRating } from '../services/api';
+import { fetchArtToolById, countFeedbacks, averageRating, fetchArtTools } from '../services/api';
 import { addToFavorites, removeFromFavorites, isFavorite } from '../utils/storage';
+import { analyzeProductImage } from '../services/geminiAI';
 import { COLORS } from '../constants/colors';
 
 export default function DetailScreen({ route, navigation }) {
@@ -80,6 +81,19 @@ export default function DetailScreen({ route, navigation }) {
       await addToFavorites(item);
       setIsFav(true);
     }
+  };
+
+  const handleFindSimilar = async () => {
+    if (!item || !item.image) {
+      Alert.alert('Error', 'No product image available for analysis');
+      return;
+    }
+
+    // Navigate to SimilarProductsScreen with product image
+    navigation.navigate('SimilarProducts', {
+      productImage: item.image,
+      productId: item.id
+    });
   };
 
   if (loading) {
@@ -246,6 +260,17 @@ export default function DetailScreen({ route, navigation }) {
           </View>
         )}
 
+        {/* Find Similar Button */}
+        <TouchableOpacity
+          style={styles.findSimilarButton}
+          onPress={handleFindSimilar}
+        >
+          <Ionicons name="search" size={24} color="#fff" />
+          <Text style={styles.findSimilarButtonText}>
+            Find Similar Products
+          </Text>
+        </TouchableOpacity>
+
         {/* Action Button */}
         <TouchableOpacity
           style={[styles.actionButton, isFav && styles.actionButtonActive]}
@@ -260,6 +285,7 @@ export default function DetailScreen({ route, navigation }) {
             {isFav ? 'Remove from Favorites' : 'Add to Favorites'}
           </Text>
         </TouchableOpacity>
+
       </View>
     </ScrollView>
   );
@@ -516,5 +542,23 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#999',
     textDecorationLine: 'line-through',
+  },
+  // Find Similar Button Styles
+  findSimilarButton: {
+    flexDirection: 'row',
+    backgroundColor: '#4CAF50',
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  findSimilarButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginLeft: 10,
   },
 });

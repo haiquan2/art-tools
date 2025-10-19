@@ -10,6 +10,9 @@ import DetailScreen from '../screens/DetailScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import ShopScreen from '../screens/ShopScreen';
 import SearchResultScreen from '../screens/SearchResultScreen';
+import CameraScreen from '../screens/CameraScreen';
+import MapsScreen from '../screens/MapsScreen';
+import SimilarProductsScreen from '../screens/SimilarProductsScreen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Tab = createBottomTabNavigator();
@@ -29,6 +32,11 @@ function HomeStack() {
           name="Detail" 
           component={DetailScreen}
           options={{ title: 'Product Detail', headerShown: false }}
+        />
+        <Stack.Screen 
+          name="SimilarProducts" 
+          component={SimilarProductsScreen}
+          options={{ title: 'Similar Products', headerShown: false }}
         />
       </Stack.Navigator>
     </SafeAreaView>
@@ -55,6 +63,11 @@ function ShopStack() {
           component={DetailScreen}
           options={{ title: 'Product Detail', headerShown: false }}
         />
+        <Stack.Screen 
+          name="SimilarProducts" 
+          component={SimilarProductsScreen}
+          options={{ title: 'Similar Products', headerShown: false }}
+        />
       </Stack.Navigator>
     </SafeAreaView>
   );
@@ -72,6 +85,10 @@ export default function AppNavigator() {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Shop') {
             iconName = focused ? 'storefront' : 'storefront-outline';
+          } else if (route.name === 'Camera') {
+            iconName = focused ? 'camera' : 'camera-outline';
+          } else if (route.name === 'Maps') {
+            iconName = focused ? 'map' : 'map-outline';
           } else if (route.name === 'Favorites') {
             iconName = focused ? 'heart' : 'heart-outline';
           }
@@ -91,6 +108,16 @@ export default function AppNavigator() {
         name="Shop" 
         component={ShopStack}
         options={{ headerShown: false }}
+      />
+      <Tab.Screen 
+        name="Camera" 
+        component={CameraScreen}
+        options={{ title: 'Product Recognition' }}
+      />
+      <Tab.Screen 
+        name="Maps" 
+        component={MapsScreen}
+        options={{ title: 'Find Stores' }}
       />
       <Tab.Screen 
         name="Favorites" 

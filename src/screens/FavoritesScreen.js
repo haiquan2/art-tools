@@ -14,7 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import Markdown from 'react-native-markdown-display';
 import { getFavorites, removeFromFavorites, clearAllFavorites } from '../utils/storage';
-import { getDetailedAISuggestions } from '../services/geminiAI';
+import { getDetailedAISuggestions, getEnhancedAISuggestions } from '../services/geminiAI';
 import { COLORS } from '../constants/colors';
 
 export default function FavoritesScreen({ navigation }) {
@@ -99,7 +99,7 @@ export default function FavoritesScreen({ navigation }) {
     setShowAI(true);
     
     try {
-      const suggestions = await getDetailedAISuggestions(favorites);
+      const suggestions = await getEnhancedAISuggestions(favorites);
       setAiSuggestions(suggestions);
     } catch (error) {
       console.error('Error getting AI suggestions:', error);

@@ -1,0 +1,208 @@
+[
+    {
+      "id": "1",
+      "artName": "3D Fabric Paint, Glow in the Dark A402",
+      "price": 5,
+      "description": "Puffy Paint for Fabric - Create eyecatching, 3D designs with this bright and vibrant color.",
+      "glassSurface": true,
+      "image": "https://m.media-amazon.com/images/I/61I8rKtZE0L._AC_SX679_.jpg",
+      "brand": "Arteza",
+      "limitedTimeDeal": 0.27,
+      "feedbacks": [
+        {
+          "rating": 5,
+          "comment": "Imagine all the watches, living in conFusion!",
+          "author": "John Lemon",
+          "date": "2023-10-16T17:57:28.556094Z"
+        },
+        {
+          "rating": 4,
+          "comment": "Sends anyone to heaven, I wish I could get my mother-in-law to use it!",
+          "author": "Paul McVites",
+          "date": "2023-09-05T17:57:28.556094Z"
+        }
+      ],
+      "stores": [
+        {
+          "id": "store1",
+          "name": "Art Supply Central",
+          "address": "123 Art Street, San Francisco, CA",
+          "phone": "+1-555-0123"
+        },
+        {
+          "id": "store2",
+          "name": "Creative Arts Store",
+          "address": "456 Paint Avenue, San Francisco, CA",
+          "phone": "+1-555-0456"
+        }
+      ],
+      "userUploads": [
+        {
+          "id": "upload1",
+          "url": "https://res.cloudinary.com/dwcs9l7bj/image/upload/v1705123456/art_tools/upload1.jpg"
+        }
+      ],
+      "aiAnalysis": {
+        "similarProducts": ["2", "4", "7"],
+        "visualTags": ["3D", "fabric", "paint", "glow"],
+        "confidence": 0.85
+      }
+    },
+    {
+      "id": "2",
+      "artName": "Worldwide Neon Dimensional Fabric Paint Assortment",
+      "price": 13,
+      "description": "Brilliant colors, smart prices! Top-quality fabric paint at a budget price.",
+      "glassSurface": false,
+      "image": "https://m.media-amazon.com/images/I/71yL1rYRRGL._SX522_.jpg",
+      "brand": "Color Splash",
+      "limitedTimeDeal": 0.18,
+      "feedbacks": [],
+      "stores": [
+        {
+          "id": "store1",
+          "name": "Art Supply Central",
+          "address": "123 Art Street, San Francisco, CA",
+          "phone": "+1-555-0123"
+        }
+      ],
+      "userUploads": [],
+      "aiAnalysis": {
+        "similarProducts": ["1", "9", "18"],
+        "visualTags": ["neon", "dimensional", "fabric", "paint"],
+        "confidence": 0.78
+      }
+    },
+    {
+      "id": "3",
+      "artName": "Edding 4500 textile marker - set of 10 colors (basic)",
+      "price": 29,
+      "description": "De edding textielstiften en pennen zijn verkrijgbaar in 20 levendige kleuren; voor het tekenen van precieze lijnen, bekijk de edding 4600 textielstift.",
+      "glassSurface": false,
+      "image": "https://m.media-amazon.com/images/I/71iNvJ0u+7L._AC_SX679_.jpg",
+      "brand": "Edding",
+      "limitedTimeDeal": 0,
+      "feedbacks": [],
+      "stores": [
+        {
+          "id": "store3",
+          "name": "Professional Art Supplies",
+          "address": "789 Marker Lane, San Francisco, CA",
+          "phone": "+1-555-0789"
+        }
+      ],
+      "userUploads": [],
+      "aiAnalysis": {
+        "similarProducts": ["6", "11", "16"],
+        "visualTags": ["marker", "textile", "edding", "colors"],
+        "confidence": 0.92
+      }
+    },
+    {
+      "id": "4",
+      "artName": "Real Brush Pens, Set of 12, Bright Tones",
+      "price": 12,
+      "description": "Self-Moistening and Self-Cleaning Flexible Nylon Bristles: You don't have to moisten or clean the bristles of our markers for artists after blending with other colors.",
+      "glassSurface": true,
+      "image": "https://m.media-amazon.com/images/I/71N3nrPHk5L._AC_SX679_.jpg",
+      "brand": "Arteza",
+      "limitedTimeDeal": 0.16,
+      "feedbacks": [],
+      "stores": [
+        {
+          "id": "store1",
+          "name": "Art Supply Central",
+          "address": "123 Art Street, San Francisco, CA",
+          "phone": "+1-555-0123"
+        },
+        {
+          "id": "store2",
+          "name": "Creative Arts Store",
+          "address": "456 Paint Avenue, San Francisco, CA",
+          "phone": "+1-555-0456"
+        }
+      ],
+      "userUploads": [],
+      "aiAnalysis": {
+        "similarProducts": ["1", "7", "8"],
+        "visualTags": ["brush", "pens", "bright", "artezza"],
+        "confidence": 0.88
+      }
+    },
+    {
+      "id": "5",
+      "artName": "Watercolor Pencils, 72 Colored Drawing Pencils for Artists",
+      "price": 40,
+      "description": "Add Depth to Your Art with These Watercolor Pencils: With a dab of a wet brush, these watercolor pencils for artists allow you to blend, layer, and create unique effects that lend drama to artworks.",
+      "glassSurface": false,
+      "image": "https://m.media-amazon.com/images/I/81k7uavjV1L._AC_SX466_.jpg",
+      "brand": "Arteza",
+      "limitedTimeDeal": 0,
+      "feedbacks": [],
+      "stores": [
+        {
+          "id": "store1",
+          "name": "Art Supply Central",
+          "address": "123 Art Street, San Francisco, CA",
+          "phone": "+1-555-0123"
+        }
+      ],
+      "userUploads": [],
+      "aiAnalysis": {
+        "similarProducts": ["15", "19"],
+        "visualTags": ["watercolor", "pencils", "artists", "colored"],
+        "confidence": 0.91
+      }
+    },
+    {
+      "id": "6",
+      "artName": "edding, textile pen 4600, round tip, 1 mm, red",
+      "price": 2,
+      "description": "Max. allowed washing temperature of the paint application: 60 °C.",
+      "glassSurface": true,
+      "image": "https://m.media-amazon.com/images/I/41apzbsl-LL._AC_SX679_.jpg",
+      "brand": "Edding",
+      "limitedTimeDeal": 0,
+      "feedbacks": [],
+      "stores": [
+        {
+          "id": "store3",
+          "name": "Professional Art Supplies",
+          "address": "789 Marker Lane, San Francisco, CA",
+          "phone": "+1-555-0789"
+        }
+      ],
+      "userUploads": [],
+      "aiAnalysis": {
+        "similarProducts": ["3", "11", "16"],
+        "visualTags": ["edding", "textile", "pen", "red"],
+        "confidence": 0.95
+      }
+    },
+    {
+      "id": "7",
+      "artName": "Watercolor Brush Markers, 36 Piece, Multicolor, 410-36",
+      "price": 45,
+      "description": "HAVE FUN: Pinpoint precision control, so you can create washes, gradients, shading effects, and much more. Blend colors together to create variants of your own from light pastels to bold shades. Create with no worry or mess. Hassle-free free with no bleeding or smearing.",
+      "glassSurface": true,
+      "image": "https://m.media-amazon.com/images/I/71anzdYEPpL._AC_SX679_.jpg",
+      "brand": "KingArt",
+      "limitedTimeDeal": 0.3,
+      "feedbacks": [],
+      "stores": [
+        {
+          "id": "store2",
+          "name": "Creative Arts Store",
+          "address": "456 Paint Avenue, San Francisco, CA",
+          "phone": "+1-555-0456"
+        }
+      ],
+      "userUploads": [],
+      "aiAnalysis": {
+        "similarProducts": ["1", "4", "8"],
+        "visualTags": ["watercolor", "brush", "markers", "multicolor"],
+        "confidence": 0.87
+      }
+    }
+]
+    

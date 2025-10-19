@@ -14,14 +14,57 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "permissions": [
+      "CAMERA",
+      "MEDIA_LIBRARY",
+      "LOCATION",
+      "ACCESS_FINE_LOCATION",
+      "ACCESS_COARSE_LOCATION"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app needs access to camera to identify art tools and products.",
+        "NSPhotoLibraryUsageDescription": "This app needs access to photo library to save and manage product images.",
+        "NSLocationWhenInUseUsageDescription": "This app needs location access to find nearby art supply stores."
+      },
+      "config": {
+        "googleMaps": {
+          "apiKey": "process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY"
+        }
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo-app.png",
         "backgroundColor": "#ffffff"
+      },
+      "permissions": [
+        "CAMERA",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY"
+        }
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow ArtTool App to access your camera to identify art tools and products."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow ArtTool App to use your location to find nearby art supply stores."
+        }
+      ]
+    ]
   }
 }

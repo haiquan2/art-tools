@@ -171,6 +171,12 @@ export default function HomeScreen({ navigation }) {
           value={searchQuery}
           onChangeText={setSearchQuery}
         />
+        <TouchableOpacity
+          style={styles.cameraButton}
+          onPress={() => navigation.navigate('Camera')}
+        >
+          <Ionicons name="camera" size={24} color={COLORS.primary} />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.filterContainer}>
@@ -260,6 +266,10 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 45,
     fontSize: 16,
+  },
+  cameraButton: {
+    padding: 10,
+    marginLeft: 10,
   },
   filterContainer: {
     paddingHorizontal: 15,
