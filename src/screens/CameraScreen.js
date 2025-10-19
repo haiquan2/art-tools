@@ -158,28 +158,6 @@ export default function CameraScreen({ navigation }) {
               <Text style={styles.analysisValue}>{analysisResult.brand}</Text>
             </View>
             
-            <View style={styles.analysisItem}>
-              <Text style={styles.analysisLabel}>Category:</Text>
-              <Text style={styles.analysisValue}>{analysisResult.category}</Text>
-            </View>
-            
-            <View style={styles.analysisItem}>
-              <Text style={styles.analysisLabel}>Confidence:</Text>
-              <Text style={styles.analysisValue}>{(analysisResult.confidence * 100).toFixed(1)}%</Text>
-            </View>
-
-            {analysisResult.visualTags && analysisResult.visualTags.length > 0 && (
-              <View style={styles.tagsContainer}>
-                <Text style={styles.tagsTitle}>Visual Tags:</Text>
-                <View style={styles.tagsList}>
-                  {analysisResult.visualTags.map((tag, index) => (
-                    <View key={index} style={styles.tag}>
-                      <Text style={styles.tagText}>{tag}</Text>
-                    </View>
-                  ))}
-                </View>
-              </View>
-            )}
 
             {analysisResult.similarProducts && analysisResult.similarProducts.length > 0 ? (
               <View style={styles.similarProductsContainer}>

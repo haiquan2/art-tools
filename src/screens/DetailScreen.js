@@ -114,20 +114,31 @@ export default function DetailScreen({ route, navigation }) {
 
   return (
     <ScrollView style={styles.container}>
-      <Image
-        source={{ uri: item.image || 'https://via.placeholder.com/400' }}
-        style={styles.image}
-        resizeMode="cover"
-      />
-
-      {/* Favorite Button */}
-      <TouchableOpacity style={styles.favoriteButton} onPress={toggleFavorite}>
-        <Ionicons
-          name={isFav ? 'heart' : 'heart-outline'}
-          size={32}
-          color={isFav ? COLORS.primary : '#fff'}
+      <View style={styles.imageContainer}>
+        <Image
+          source={{ uri: item.image || 'https://via.placeholder.com/400' }}
+          style={styles.image}
+          resizeMode="cover"
         />
-      </TouchableOpacity>
+
+        {/* Favorite Button */}
+        <TouchableOpacity style={styles.favoriteButton} onPress={toggleFavorite}>
+          <Ionicons
+            name={isFav ? 'heart' : 'heart-outline'}
+            size={32}
+            color={isFav ? COLORS.primary : '#fff'}
+          />
+        </TouchableOpacity>
+
+        {/* Find Similar Button */}
+        <TouchableOpacity
+          style={styles.findSimilarButtonOnImage}
+          onPress={handleFindSimilar}
+        >
+          <Ionicons name="search" size={18} color="#fff" />
+          <Text style={styles.findSimilarButtonText}>Find similar</Text>
+        </TouchableOpacity>
+      </View>
 
       {/* Product Details */}
       <View style={styles.detailsContainer}>
@@ -233,7 +244,7 @@ export default function DetailScreen({ route, navigation }) {
                 <TouchableOpacity
                   key={product.id}
                   style={styles.sameBrandCard}
-                  onPress={() => navigation.push('DetailScreen', { itemId: product.id })}
+                  onPress={() => navigation.push('Detail', { itemId: product.id })}
                 >
                   <Image source={{ uri: product.image }} style={styles.sameBrandImage} />
                   {product.limitedTimeDeal > 0 && (
@@ -259,17 +270,6 @@ export default function DetailScreen({ route, navigation }) {
             </View>
           </View>
         )}
-
-        {/* Find Similar Button */}
-        <TouchableOpacity
-          style={styles.findSimilarButton}
-          onPress={handleFindSimilar}
-        >
-          <Ionicons name="search" size={24} color="#fff" />
-          <Text style={styles.findSimilarButtonText}>
-            Find Similar Products
-          </Text>
-        </TouchableOpacity>
 
         {/* Action Button */}
         <TouchableOpacity
@@ -301,6 +301,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  imageContainer: {
+    position: 'relative',
+    width: '100%',
+    height: 320,
+  },
   image: {
     width: '100%',
     height: 320,
@@ -316,6 +321,23 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.3)',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  findSimilarButtonOnImage: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 25,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
   },
   detailsContainer: {
     padding: 20,
@@ -543,22 +565,10 @@ const styles = StyleSheet.create({
     color: '#999',
     textDecorationLine: 'line-through',
   },
-  // Find Similar Button Styles
-  findSimilarButton: {
-    flexDirection: 'row',
-    backgroundColor: '#4CAF50',
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 20,
-    marginBottom: 10,
-  },
   findSimilarButtonText: {
     color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginLeft: 10,
+    fontSize: 13,
+    fontWeight: '600',
+    marginLeft: 6,
   },
 });

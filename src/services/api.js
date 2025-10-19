@@ -1,8 +1,7 @@
 import axios from 'axios';
-import { API_BASE_URL } from '@env';
 
 const api = axios.create({
-  baseURL: API_BASE_URL || 'https://6751d12dd1983b9597b476f2.mockapi.io/api/v1',
+  baseURL: process.env.EXPO_PUBLIC_API_BASE_URL,
   timeout: 10000,
 });
 

@@ -1,7 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { GEMINI_API_KEY } from '@env';
 
-const genAI = new GoogleGenerativeAI(GEMINI_API_KEY || 'your_api_key_here');
+const genAI = new GoogleGenerativeAI(process.env.EXPO_PUBLIC_GEMINI_API_KEY || 'your_api_key_here');
 
 /**
  * Get AI suggestions for similar art tools based on favorites
@@ -106,7 +105,7 @@ export async function analyzeProductImage(imageUrl, products) {
 Available products in our database:
 ${JSON.stringify(productList, null, 2)}
 
-Based on the image, find the 3 most similar products from our database. Consider:
+Based on the image, find the 2 most similar products from our database. Consider:
 - Visual appearance (colors, shape, materials)
 - Product type and category
 - Brand similarity
@@ -133,15 +132,22 @@ IMPORTANT: Only return JSON, no other text.`;
     const response = await result.response;
     const text = response.text();
     
-    console.log('AI Response:', text);
-    
     // Try to parse JSON response
     try {
-      const parsed = JSON.parse(text);
-      console.log('Parsed AI Response:', parsed);
+      // Remove markdown code blocks if present
+      let cleanText = text.trim();
+      if (cleanText.startsWith('```json')) {
+        cleanText = cleanText.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+      } else if (cleanText.startsWith('```')) {
+        cleanText = cleanText.replace(/^```\s*/, '').replace(/\s*```$/, '');
+      }
+      
+      // Remove any remaining backticks or markdown artifacts
+      cleanText = cleanText.replace(/```/g, '').trim();
+      
+      const parsed = JSON.parse(cleanText);
       return parsed;
     } catch (parseError) {
-      console.log('JSON Parse Error:', parseError);
       // If JSON parsing fails, return structured text
       return {
         productName: "Unknown Product",

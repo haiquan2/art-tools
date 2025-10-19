@@ -116,31 +116,12 @@ export default function SimilarProductsScreen({ route, navigation }) {
       <View style={styles.analysisContainer}>
         <Text style={styles.analysisTitle}>AI Analysis</Text>
         <View style={styles.analysisItem}>
-          <Text style={styles.analysisLabel}>Detected Product:</Text>
           <Text style={styles.analysisValue}>{analysisResult.productName}</Text>
         </View>
         <View style={styles.analysisItem}>
           <Text style={styles.analysisLabel}>Brand:</Text>
           <Text style={styles.analysisValue}>{analysisResult.brand}</Text>
         </View>
-        <View style={styles.analysisItem}>
-          <Text style={styles.analysisLabel}>Confidence:</Text>
-          <Text style={styles.analysisValue}>
-            {(analysisResult.confidence * 100).toFixed(1)}%
-          </Text>
-        </View>
-        {analysisResult.visualTags && analysisResult.visualTags.length > 0 && (
-          <View style={styles.tagsContainer}>
-            <Text style={styles.tagsLabel}>Visual Tags:</Text>
-            <View style={styles.tagsList}>
-              {analysisResult.visualTags.map((tag, index) => (
-                <View key={index} style={styles.tag}>
-                  <Text style={styles.tagText}>{tag}</Text>
-                </View>
-              ))}
-            </View>
-          </View>
-        )}
       </View>
     );
   };
@@ -315,6 +296,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     margin: 5,
     elevation: 2,
+    width: '48%',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
