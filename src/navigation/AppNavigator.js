@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { COLORS } from '../constants/colors';
 
 // Screens
+import SplashScreen from '../screens/SplashScreen';
 import HomeScreen from '../screens/HomeScreen';
 import DetailScreen from '../screens/DetailScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
@@ -74,7 +75,7 @@ function ShopStack() {
 }
 
 // Main Tab Navigator
-export default function AppNavigator() {
+function MainTabNavigator() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -125,5 +126,15 @@ export default function AppNavigator() {
         options={{ title: 'My Favorites' }}
       />
     </Tab.Navigator>
+  );
+}
+
+// Root Stack Navigator
+export default function AppNavigator() {
+  return (
+    <Stack.Navigator initialRouteName="Splash" screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Splash" component={SplashScreen} />
+      <Stack.Screen name="Main" component={MainTabNavigator} />
+    </Stack.Navigator>
   );
 }
