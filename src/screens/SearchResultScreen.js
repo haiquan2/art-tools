@@ -15,7 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { fetchArtTools } from '../services/api';
 import { addToFavorites, removeFromFavorites, isFavorite } from '../utils/storage';
 import { COLORS } from '../constants/colors';
-import { formatData } from '../util/helper';
+import { formatData } from '../utils/helper';
 
 export default function SearchResultScreen({ route, navigation }) {
   const { brand: initialBrand } = route.params || {};

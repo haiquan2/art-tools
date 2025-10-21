@@ -127,7 +127,7 @@ The app uses Google Gemini API to provide intelligent recommendations:
 
 ```javascript
 // When user clicks "Get AI Suggestions"
-const suggestions = await getDetailedAISuggestions(favorites);
+api call from gemini service;
 ```
 
 The AI analyzes:
@@ -137,7 +137,7 @@ The AI analyzes:
 - Price ranges
 - Find similary product by image
 
-And suggests 3 similar products the user might like.
+And suggests 2 similar products the user might like.
 
 ## 🔐 Security
 
@@ -187,12 +187,6 @@ And suggests 3 similar products the user might like.
 ## 📄 License
 
 This is an educational project for FPTU MMA course.
-
-## 👨‍💻 Developer
-
-Created for Mobile App Development Assignment
-
----
 
 **Happy Coding! 🎨✨**
 # art-tools

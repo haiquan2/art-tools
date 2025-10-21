@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   View,
   Text,
@@ -17,6 +17,7 @@ import { COLORS } from '../constants/colors';
 
 export default function CameraScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
+  const [analyzing, setAnalyzing] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [analysisResult, setAnalysisResult] = useState(null);
   const [allProducts, setAllProducts] = useState([]);
@@ -36,7 +37,7 @@ export default function CameraScreen({ navigation }) {
       const imageUri = await takePhoto();
       if (imageUri) {
         setCapturedImage(imageUri);
-        await analyzeImage(imageUri);
+        setAnalysisResult(null); // Clear previous results
       }
     } catch (error) {
       Alert.alert('Error', 'Failed to take photo: ' + error.message);
@@ -51,7 +52,7 @@ export default function CameraScreen({ navigation }) {
       const imageUri = await pickImage();
       if (imageUri) {
         setCapturedImage(imageUri);
-        await analyzeImage(imageUri);
+        setAnalysisResult(null); // Clear previous results
       }
     } catch (error) {
       console.error('Error picking image:', error);
@@ -63,7 +64,7 @@ export default function CameraScreen({ navigation }) {
 
   const analyzeImage = async (imageUri) => {
     try {
-      setLoading(true);
+      setAnalyzing(true);
       
       // Load products if not already loaded
       if (allProducts.length === 0) {
@@ -108,7 +109,7 @@ export default function CameraScreen({ navigation }) {
       console.error('Error analyzing image:', error);
       Alert.alert('Error', 'Failed to analyze image. Please try again.');
     } finally {
-      setLoading(false);
+      setAnalyzing(false);
     }
   };
 
@@ -148,17 +149,6 @@ export default function CameraScreen({ navigation }) {
           </View>
         ) : (
           <>
-            <View style={styles.analysisItem}>
-              <Text style={styles.analysisLabel}>Detected Product:</Text>
-              <Text style={styles.analysisValue}>{analysisResult.productName}</Text>
-            </View>
-            
-            <View style={styles.analysisItem}>
-              <Text style={styles.analysisLabel}>Brand:</Text>
-              <Text style={styles.analysisValue}>{analysisResult.brand}</Text>
-            </View>
-            
-
             {analysisResult.similarProducts && analysisResult.similarProducts.length > 0 ? (
               <View style={styles.similarProductsContainer}>
                 <Text style={styles.similarProductsTitle}>Similar Products:</Text>
@@ -205,13 +195,28 @@ export default function CameraScreen({ navigation }) {
       {capturedImage ? (
         <View style={styles.imageContainer}>
           <Image source={{ uri: capturedImage }} style={styles.capturedImage} />
-          <TouchableOpacity
-            style={styles.retakeButton}
-            onPress={showImageOptions}
-          >
-            <Ionicons name="camera" size={20} color="#fff" />
-            <Text style={styles.retakeButtonText}>Retake</Text>
-          </TouchableOpacity>
+          <View style={styles.imageActions}>
+            <TouchableOpacity
+              style={styles.retakeButton}
+              onPress={showImageOptions}
+            >
+              <Ionicons name="camera" size={20} color={COLORS.primary} />
+              <Text style={styles.retakeButtonText}>Retake</Text>
+            </TouchableOpacity>
+            
+            {!analysisResult && (
+              <TouchableOpacity
+                style={styles.startFindingButton}
+                onPress={() => analyzeImage(capturedImage)}
+                disabled={analyzing}
+              >
+                <>
+                  <Ionicons name="search" size={20} color="#fff" />
+                  <Text style={styles.startFindingButtonText}>Start Finding</Text>
+                </>
+              </TouchableOpacity>
+            )}
+          </View>
         </View>
       ) : (
         <TouchableOpacity
@@ -223,11 +228,21 @@ export default function CameraScreen({ navigation }) {
             <ActivityIndicator size="large" color="#fff" />
           ) : (
             <>
-              <Ionicons name="camera" size={60} color="#fff" />
+              <Ionicons name="camera" size={60} color={COLORS.primary} />
               <Text style={styles.captureButtonText}>Capture Product</Text>
             </>
           )}
         </TouchableOpacity>
+      )}
+
+      {analyzing && (
+        <View style={styles.analysisContainer}>
+          <View style={styles.analyzingContainer}>
+            <ActivityIndicator size="large" color={COLORS.primary} />
+            <Text style={styles.analyzingText}>Analyzing your image...</Text>
+            <Text style={styles.analyzingSubtext}>Please wait while we identify the product</Text>
+          </View>
+        </View>
       )}
 
       {renderAnalysisResult()}
@@ -259,7 +274,7 @@ const styles = StyleSheet.create({
   captureButton: {
     margin: 20,
     height: 200,
-    backgroundColor: COLORS.primary,
+    backgroundColor: 'white',
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
@@ -270,7 +285,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
   captureButtonText: {
-    color: '#fff',
+    color: COLORS.primary,
     fontSize: 18,
     fontWeight: 'bold',
     marginTop: 10,
@@ -285,11 +300,15 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: '#f0f0f0',
   },
-  retakeButton: {
+  imageActions: {
     position: 'absolute',
     bottom: 10,
     right: 10,
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    flexDirection: 'row',
+    gap: 10,
+  },
+  retakeButton: {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     paddingHorizontal: 15,
     paddingVertical: 8,
     borderRadius: 20,
@@ -297,6 +316,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   retakeButtonText: {
+    color: '#fff',
+    marginLeft: 5,
+    fontWeight: 'bold',
+  },
+  startFindingButton: {
+    backgroundColor: COLORS.primary,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
+    borderRadius: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  startFindingButtonText: {
     color: '#fff',
     marginLeft: 5,
     fontWeight: 'bold',
@@ -312,6 +344,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
   },
+  analyzingContainer: {
+    alignItems: 'center',
+    paddingVertical: 20,
+  },
+  analyzingText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#333',
+    marginTop: 15,
+    marginBottom: 5,
+  },
+  analyzingSubtext: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+  },
   analysisTitle: {
     fontSize: 20,
     fontWeight: 'bold',
@@ -320,18 +368,16 @@ const styles = StyleSheet.create({
   },
   analysisItem: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     marginBottom: 10,
   },
   analysisLabel: {
-    fontSize: 16,
-    color: '#666',
+    fontSize: 14,
+    color: '#000',
     fontWeight: '600',
   },
   analysisValue: {
-    fontSize: 16,
-    color: '#333',
-    fontWeight: 'bold',
+    fontSize: 14,
+    color: '#000',
   },
   similarProductsContainer: {
     marginTop: 20,

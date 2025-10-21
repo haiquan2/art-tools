@@ -1,8 +1,5 @@
 import * as Location from 'expo-location';
 
-/**
- * Request location permissions
- */
 export const requestLocationPermissions = async () => {
   try {
     const { status } = await Location.requestForegroundPermissionsAsync();
@@ -16,9 +13,6 @@ export const requestLocationPermissions = async () => {
   }
 };
 
-/**
- * Get current user location
- */
 export const getCurrentLocation = async () => {
   try {
     await requestLocationPermissions();
@@ -38,9 +32,6 @@ export const getCurrentLocation = async () => {
   }
 };
 
-/**
- * Calculate distance between two coordinates
- */
 export const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const R = 6371; // Earth's radius in kilometers
   const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -54,9 +45,6 @@ export const calculateDistance = (lat1, lon1, lat2, lon2) => {
   return distance;
 };
 
-/**
- * Find nearby stores
- */
 export const findNearbyStores = (stores, userLat, userLon, radiusKm = 10) => {
   return stores.filter(store => {
     if (!store.location || !store.location.lat || !store.location.lng) {
@@ -78,18 +66,12 @@ export const findNearbyStores = (stores, userLat, userLon, radiusKm = 10) => {
   })).sort((a, b) => a.distance - b.distance);
 };
 
-/**
- * Get stores with specific product availability
- */
 export const getStoresWithProduct = (stores, productId) => {
   return stores.filter(store => 
     store.products && store.products.includes(productId)
   );
 };
 
-/**
- * Format store information for display
- */
 export const formatStoreInfo = (store) => {
   return {
     id: store.id,

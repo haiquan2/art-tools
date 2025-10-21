@@ -119,7 +119,6 @@ export default function SimilarProductsScreen({ route, navigation }) {
           <Text style={styles.analysisValue}>{analysisResult.productName}</Text>
         </View>
         <View style={styles.analysisItem}>
-          <Text style={styles.analysisLabel}>Brand:</Text>
           <Text style={styles.analysisValue}>{analysisResult.brand}</Text>
         </View>
       </View>
