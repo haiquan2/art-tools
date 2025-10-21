@@ -41,6 +41,12 @@ export default function SearchResultScreen({ route, navigation }) {
   }, []);
 
   useEffect(() => {
+    if (initialBrand) {
+      setSelectedBrand(initialBrand);
+    }
+  }, [initialBrand]);
+
+  useEffect(() => {
     filterAndSortTools();
   }, [searchQuery, selectedBrand, showOnSaleOnly, priceRange, sortBy, artTools]);
 

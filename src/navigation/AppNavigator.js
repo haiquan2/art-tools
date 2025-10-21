@@ -35,6 +35,11 @@ function HomeStack() {
           options={{ title: 'Product Detail', headerShown: false }}
         />
         <Stack.Screen 
+          name="SearchResult" 
+          component={SearchResultScreen}
+          options={{ title: 'Search Results', headerShown: false }}
+        />
+        <Stack.Screen 
           name="SimilarProducts" 
           component={SimilarProductsScreen}
           options={{ title: 'Similar Products', headerShown: false }}

@@ -22,6 +22,7 @@ export default function DetailScreen({ route, navigation }) {
   const [feedbackCount, setFeedbackCount] = useState(0);
   const [avgRating, setAvgRating] = useState(0);
   const [sameBrandItems, setSameBrandItems] = useState([]);
+  const [showHeader, setShowHeader] = useState(false);
 
   useEffect(() => {
     loadItemDetail();
@@ -47,7 +48,6 @@ export default function DetailScreen({ route, navigation }) {
 
   const loadSameBrandItems = async () => {
     try {
-      const { fetchArtTools } = require('../services/api');
       const allTools = await fetchArtTools();
       const brandItems = allTools
         .filter(tool => tool.brand === item.brand && tool.id !== item.id)
@@ -89,11 +89,15 @@ export default function DetailScreen({ route, navigation }) {
       return;
     }
 
-    // Navigate to SimilarProductsScreen with product image
     navigation.navigate('SimilarProducts', {
       productImage: item.image,
       productId: item.id
     });
+  };
+
+  const handleScroll = (event) => {
+    const scrollY = event.nativeEvent.contentOffset.y;
+    setShowHeader(scrollY > 120);
   };
 
   if (loading) {
@@ -113,7 +117,39 @@ export default function DetailScreen({ route, navigation }) {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
+      {showHeader && (
+        <View style={styles.fixedHeader}>
+          <TouchableOpacity 
+            style={styles.headerBackButton} 
+            onPress={() => navigation.goBack()}
+          >
+            <Ionicons name="arrow-back" size={24} color="#333" />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle} numberOfLines={1}>{item?.artName}</Text>
+          <TouchableOpacity style={styles.headerFavoriteButton} onPress={toggleFavorite}>
+            <Ionicons
+              name={isFav ? 'heart' : 'heart-outline'}
+              size={24}
+              color={isFav ? COLORS.primary : '#333'}
+            />
+          </TouchableOpacity>
+        </View>
+      )}
+
+      <ScrollView 
+        style={styles.scrollView}
+        onScroll={handleScroll}
+        scrollEventThrottle={16}
+      >
+      {/* Back Button */}
+      <TouchableOpacity 
+        style={styles.backButton} 
+        onPress={() => navigation.goBack()}
+      >
+        <Ionicons name="arrow-back" size={24} color="#333" />
+      </TouchableOpacity>
+
       <View style={styles.imageContainer}>
         <Image
           source={{ uri: item.image || 'https://via.placeholder.com/400' }}
@@ -125,8 +161,8 @@ export default function DetailScreen({ route, navigation }) {
         <TouchableOpacity style={styles.favoriteButton} onPress={toggleFavorite}>
           <Ionicons
             name={isFav ? 'heart' : 'heart-outline'}
-            size={32}
-            color={isFav ? COLORS.primary : '#fff'}
+            size={28}
+            color={isFav ? COLORS.primary : '#000'}
           />
         </TouchableOpacity>
 
@@ -135,7 +171,7 @@ export default function DetailScreen({ route, navigation }) {
           style={styles.findSimilarButtonOnImage}
           onPress={handleFindSimilar}
         >
-          <Ionicons name="search" size={18} color="#fff" />
+          <Ionicons name="search" size={18} color="#000" />
           <Text style={styles.findSimilarButtonText}>Find similar</Text>
         </TouchableOpacity>
       </View>
@@ -185,7 +221,7 @@ export default function DetailScreen({ route, navigation }) {
             <Text style={styles.ratingsTitle}>Ratings ({feedbackCount})</Text>
             <View style={styles.ratingRow}>
               <Ionicons name="star" size={20} color="#FFD700" />
-              <Text style={styles.avgRatingText}>{avgRating.toFixed(1)} average stars</Text>
+              <Text style={styles.avgRatingText}>{avgRating.toFixed(1)}</Text>
             </View>
           </View>
         )}
@@ -193,26 +229,30 @@ export default function DetailScreen({ route, navigation }) {
         {/* User Feedback */}
         {item.feedbacks && Array.isArray(item.feedbacks) && item.feedbacks.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Customer Feedbacks ({item.feedbacks.length})</Text>
+            <Text style={styles.sectionTitle}>Customer Reviews ({item.feedbacks.length})</Text>
             {item.feedbacks.map((feedback, index) => (
-              <View key={index} style={styles.feedbackContainer}>
+              <View key={index} style={styles.feedbackCard}>
                 <View style={styles.feedbackHeader}>
                   <Text style={styles.feedbackAuthor}>{feedback.author}</Text>
-                  <View style={styles.feedbackRating}>
-                    {[...Array(5)].map((_, i) => (
-                      <Ionicons
-                        key={i}
-                        name={i < feedback.rating ? 'star' : 'star-outline'}
-                        size={14}
-                        color="#FFD700"
-                      />
-                    ))}
-                  </View>
+                  <Text style={styles.feedbackDate}>
+                    {new Date(feedback.date).toLocaleDateString('en-US', { 
+                      month: 'short', 
+                      day: 'numeric', 
+                      year: 'numeric' 
+                    })}
+                  </Text>
+                </View>
+                <View style={styles.feedbackStars}>
+                  {[...Array(5)].map((_, i) => (
+                    <Ionicons
+                      key={i}
+                      name={i < feedback.rating ? 'star' : 'star-outline'}
+                      size={13}
+                      color={COLORS.primaryDark}
+                    />
+                  ))}
                 </View>
                 <Text style={styles.feedbackText}>{feedback.comment}</Text>
-                <Text style={styles.feedbackDate}>
-                  {new Date(feedback.date).toLocaleDateString()}
-                </Text>
               </View>
             ))}
           </View>
@@ -271,23 +311,9 @@ export default function DetailScreen({ route, navigation }) {
           </View>
         )}
 
-        {/* Action Button */}
-        <TouchableOpacity
-          style={[styles.actionButton, isFav && styles.actionButtonActive]}
-          onPress={toggleFavorite}
-        >
-          <Ionicons
-            name={isFav ? 'heart' : 'heart-outline'}
-            size={24}
-            color="#fff"
-          />
-          <Text style={styles.actionButtonText}>
-            {isFav ? 'Remove from Favorites' : 'Add to Favorites'}
-          </Text>
-        </TouchableOpacity>
-
       </View>
     </ScrollView>
+    </View>
   );
 }
 
@@ -295,6 +321,65 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  fixedHeader: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 60,
+    backgroundColor: '#fff',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+    zIndex: 1000,
+    elevation: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+  },
+  headerBackButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerTitle: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#333',
+    marginHorizontal: 10,
+  },
+  headerFavoriteButton: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  scrollView: {
+    flex: 1,
+  },
+  backButton: {
+    position: 'absolute',
+    top: 20,
+    left: 20,
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 100,
+    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   centered: {
     flex: 1,
@@ -315,10 +400,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 20,
     right: 20,
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     borderRadius: 25,
-    backgroundColor: 'rgba(0,0,0,0.3)',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    borderRadius: 100,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -326,7 +416,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     right: 20,
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 25,
@@ -428,23 +518,23 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: 'bold',
     color: '#333',
     marginBottom: 10,
   },
   description: {
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize: 14,
+    lineHeight: 16,
     color: '#666',
   },
-  feedbackContainer: {
-    backgroundColor: '#f9f9f9',
-    padding: 15,
-    borderRadius: 10,
-    borderLeftWidth: 4,
-    borderLeftColor: COLORS.primary,
-    marginBottom: 10,
+  feedbackCard: {
+    backgroundColor: '#f8f9fa',
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 12,
+    borderWidth: 1,
+    borderColor: '#e9ecef',
   },
   feedbackHeader: {
     flexDirection: 'row',
@@ -453,44 +543,22 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   feedbackAuthor: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  feedbackRating: {
-    flexDirection: 'row',
-    gap: 2,
-  },
-  feedbackText: {
-    fontSize: 15,
-    lineHeight: 22,
-    color: '#666',
-    marginBottom: 8,
+    fontSize: 14,
+    fontWeight: '600',
+    color: COLORS.primary,
   },
   feedbackDate: {
-    fontSize: 12,
-    color: '#999',
-    fontStyle: 'italic',
+    fontSize: 13,
+    color: '#6c757d',
   },
-  actionButton: {
+  feedbackStars: {
     flexDirection: 'row',
-    backgroundColor: COLORS.primary,
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 20,
-    marginBottom: 30,
+    marginBottom: 8,
   },
-  actionButtonActive: {
-    backgroundColor: '#999',
-  },
-  actionButtonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginLeft: 10,
+  feedbackText: {
+    fontSize: 13,
+    lineHeight: 22,
+    color: '#333',
   },
   errorText: {
     fontSize: 16,
@@ -566,7 +634,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'line-through',
   },
   findSimilarButtonText: {
-    color: '#fff',
+    color: '#000',
     fontSize: 13,
     fontWeight: '600',
     marginLeft: 6,
