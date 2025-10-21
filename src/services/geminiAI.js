@@ -207,12 +207,13 @@ export async function getEnhancedAISuggestions(favorites, imageUrl = null) {
       category: f.category || 'art-tool'
     })))}
     
-    Please suggest 3 new art tools they might like.
+    Please suggest 2 new art tools they might like, giving short response, only focus on important information.
     For each suggestion:
     1. Product name and category
     2. Key features
     3. Why it matches their taste
     4. Estimated price range
+    5. Where to buy it
     
     Keep suggestions practical and relevant.`;
     

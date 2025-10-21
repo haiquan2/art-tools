@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -14,7 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import Markdown from 'react-native-markdown-display';
 import { getFavorites, removeFromFavorites, clearAllFavorites } from '../utils/storage';
-import { getDetailedAISuggestions, getEnhancedAISuggestions } from '../services/geminiAI';
+import { getEnhancedAISuggestions } from '../services/geminiAI';
 import { COLORS } from '../constants/colors';
 
 export default function FavoritesScreen({ navigation }) {
@@ -61,7 +61,7 @@ export default function FavoritesScreen({ navigation }) {
           onPress: async () => {
             await removeFromFavorites(itemId);
             await loadFavorites();
-            setShowAI(false); // Reset AI suggestions when favorites change
+            setShowAI(false); 
             setAiSuggestions('');
           },
         },
@@ -102,7 +102,6 @@ export default function FavoritesScreen({ navigation }) {
       const suggestions = await getEnhancedAISuggestions(favorites);
       setAiSuggestions(suggestions);
     } catch (error) {
-      console.error('Error getting AI suggestions:', error);
       setAiSuggestions('Unable to get AI recommendations. Please try again later.');
     } finally {
       setLoadingAI(false);
@@ -110,45 +109,50 @@ export default function FavoritesScreen({ navigation }) {
   };
 
   const renderFavoriteItem = ({ item }) => (
-    <View style={styles.card}>
-      <TouchableOpacity
-        style={styles.cardContent}
-        onPress={() => navigation.navigate('Home', {
-          screen: 'Detail',
-          params: { itemId: item.id }
-        })}
-      >
+    <TouchableOpacity
+      style={styles.gridItem}
+      onPress={() => navigation.navigate('Home', {
+        screen: 'Detail',
+        params: { itemId: item.id }
+      })}
+    >
+      <View style={styles.imageContainer}>
         <Image
           source={{ uri: item.image || 'https://via.placeholder.com/100' }}
           style={styles.image}
           resizeMode="cover"
         />
-        <View style={styles.info}>
-          <Text style={styles.title} numberOfLines={2}>{item.artName}</Text>
-          <Text style={styles.brand}>{item.brand}</Text>
-          <View style={styles.priceRow}>
-            <Text style={styles.price}>${item.price}</Text>
-            {item.limitedTimeDeal > 0 && (
-              <View style={styles.dealBadge}>
-                <Text style={styles.dealText}>{Math.round(item.limitedTimeDeal * 100)}% OFF</Text>
-              </View>
-            )}
+        <TouchableOpacity
+          style={styles.favoriteButton}
+          onPress={(e) => {
+            e.stopPropagation();
+            handleRemoveFavorite(item.id);
+          }}
+        >
+          <Ionicons name="heart" size={20} color={COLORS.primary} />
+        </TouchableOpacity>
+        {item.limitedTimeDeal > 0 && (
+          <View style={styles.dealBadge}>
+            <Text style={styles.dealText}>{Math.round(item.limitedTimeDeal * 100)}% OFF</Text>
           </View>
-          {item.glassSurface && (
-            <View style={styles.featureBadge}>
-              <Ionicons name="shield-checkmark" size={12} color={COLORS.primary} />
-              <Text style={styles.featureText}>Glass Safe</Text>
-            </View>
+        )}
+      </View>
+      <View style={styles.itemInfo}>
+        <Text style={styles.title} numberOfLines={1}>{item.artName}</Text>
+        <View style={styles.priceRow}>
+          <Text style={styles.price}>${item.price}</Text>
+          {item.limitedTimeDeal > 0 && (
+            <Text style={styles.originalPrice}>${Math.round(item.price * (1 - item.limitedTimeDeal))}</Text>
           )}
         </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.removeButton}
-        onPress={() => handleRemoveFavorite(item.id)}
-      >
-        <Ionicons name="trash-outline" size={24} color={COLORS.primary} />
-      </TouchableOpacity>
-    </View>
+        {item.glassSurface && (
+          <View style={styles.featureBadge}>
+            <Ionicons name="shield-checkmark" size={10} color={COLORS.primary} />
+            <Text style={styles.featureText}>Glass</Text>
+          </View>
+        )}
+      </View>
+    </TouchableOpacity>
   );
 
   const renderAISuggestions = () => {
@@ -210,13 +214,19 @@ export default function FavoritesScreen({ navigation }) {
         data={favorites}
         renderItem={renderFavoriteItem}
         keyExtractor={(item) => item.id.toString()}
-        contentContainerStyle={styles.list}
+        numColumns={2}
+        columnWrapperStyle={styles.row}
+        contentContainerStyle={styles.gridContainer}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Ionicons name="heart-outline" size={80} color="#ddd" />
+            <Image
+              source={require('../../assets/no_favorite.png')}
+              style={styles.emptyImage}
+              resizeMode="contain"
+            />
             <Text style={styles.emptyTitle}>No Favorites Yet</Text>
             <Text style={styles.emptyText}>
               Start adding art tools to your favorites!
@@ -262,7 +272,7 @@ const styles = StyleSheet.create({
   },
   clearButton: {
     flexDirection: 'row',
-    backgroundColor: '#999',
+    backgroundColor: COLORS.error,
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 10,
@@ -275,10 +285,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  list: {
+  gridContainer: {
     padding: 15,
   },
-  card: {
+  row: {
+    justifyContent: 'space-between',
+  },
+  gridItem: {
+    width: '48%',
     backgroundColor: '#fff',
     borderRadius: 10,
     marginBottom: 15,
@@ -287,33 +301,41 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    flexDirection: 'row',
     overflow: 'hidden',
   },
-  cardContent: {
-    flex: 1,
-    flexDirection: 'row',
-    padding: 15,
+  imageContainer: {
+    position: 'relative',
+    width: '100%',
+    height: 160,
   },
   image: {
-    width: 100,
-    height: 100,
-    borderRadius: 8,
+    width: '100%',
+    height: '100%',
     backgroundColor: '#f0f0f0',
   },
-  info: {
-    flex: 1,
-    marginLeft: 15,
+  favoriteButton: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(0, 0, 0, 0.6)',
     justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10,
+  },
+  itemInfo: {
+    padding: 12,
   },
   title: {
-    fontSize: 16,
+    fontSize: 11,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 4,
+    marginBottom: 3,
   },
   brand: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#666',
     marginBottom: 4,
   },
@@ -321,14 +343,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 6,
-    gap: 8,
+    gap: 6,
   },
   price: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     color: COLORS.primary,
   },
+  originalPrice: {
+    fontSize: 12,
+    color: '#999',
+    textDecorationLine: 'line-through',
+  },
   dealBadge: {
+    position: 'absolute',
+    top: 8,
+    left: 8,
     backgroundColor: '#FF6B6B',
     paddingHorizontal: 6,
     paddingVertical: 3,
@@ -336,49 +366,38 @@ const styles = StyleSheet.create({
   },
   dealText: {
     color: '#fff',
-    fontSize: 10,
+    fontSize: 9,
     fontWeight: 'bold',
   },
   featureBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: COLORS.primaryLight,
-    paddingHorizontal: 6,
-    paddingVertical: 3,
-    borderRadius: 4,
+    paddingHorizontal: 4,
+    paddingVertical: 2,
+    borderRadius: 3,
     alignSelf: 'flex-start',
   },
   featureText: {
-    color: COLORS.primary,
-    fontSize: 10,
+    color: COLORS.textLight,
+    fontSize: 9,
     fontWeight: '600',
-    marginLeft: 3,
-  },
-  ratingContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  rating: {
-    marginLeft: 4,
-    fontSize: 12,
-    color: '#666',
-  },
-  removeButton: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 15,
-    backgroundColor: '#fff',
+    marginLeft: 2,
   },
   emptyContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 80,
   },
+  emptyImage: {
+    width: 200,
+    height: 200,
+    marginBottom: 20,
+  },
   emptyTitle: {
     fontSize: 22,
     fontWeight: 'bold',
     color: '#999',
-    marginTop: 20,
     marginBottom: 10,
   },
   emptyText: {
